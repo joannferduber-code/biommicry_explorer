@@ -4,193 +4,325 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Biomimicry Explorer</title>
+
 <style>
-body { font-family: Arial, sans-serif; background: linear-gradient(#e0f7fa,#ffffff); text-align: center; margin:0; padding:20px; }
-h1 { color:#2e7d32; }
-.hidden { display:none; }
+*{box-sizing:border-box;font-family:"Segoe UI",sans-serif;margin:0;padding:0;}
 
-.mindmap { position: relative; width:320px; height:320px; margin:30px auto; }
-.node { border-radius:50%; border:none; padding:16px; color:white; font-weight:bold; cursor:pointer; transition: transform 0.3s, box-shadow 0.3s; }
-.node:hover { transform:scale(1.1); box-shadow:0 0 15px rgba(0,0,0,0.2);}
-.center { background:#2e7d32; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);}
-.branch { background:#0288d1; position:absolute; opacity:0; transform:scale(0); transition: all 0.5s ease;}
-.branch.show { opacity:1; transform:scale(1);}
-.branch:nth-child(2) { top:0; left:50%; transform:translateX(-50%);}
-.branch:nth-child(3) { top:50%; right:0; transform:translateY(-50%);}
-.branch:nth-child(4) { bottom:0; left:50%; transform:translateX(-50%);}
-.branch:nth-child(5) { top:50%; left:0; transform:translateY(-50%); }
+body{
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(120deg,#1a2a6c,#b21f1f,#fdbb2d);
+background-size:400% 400%;
+animation:bgMove 15s ease infinite;
+color:white;
+}
 
-#panel { background:white; border-radius:15px; padding:20px; max-width:500px; margin:20px auto; box-shadow:0 6px 12px rgba(0,0,0,0.15);}
-.answer-btn { display:flex; align-items:center; width:100%; margin:8px 0; padding:10px; border:none; border-radius:8px; background:#4caf50; color:white; font-size:14px; cursor:pointer;}
-.answer-btn:disabled { background:#a5d6a7; cursor:not-allowed;}
-.answer-btn img { width:40px; height:40px; margin-right:10px; object-fit:cover;}
-.answer-btn:hover:not(:disabled) { background:#388e3c; }
-#nextBtn { margin-top:10px; padding:10px 15px; background:#ff9800; color:white; border:none; border-radius:8px; cursor:pointer;}
-#nextBtn:hover { background:#f57c00; }
+@keyframes bgMove{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
 
-.definition { background:#fff3e0; border:2px solid #ff9800; border-radius:12px; padding:10px; margin:10px 0;}
-.definition img { width:60px; height:60px; vertical-align:middle; margin-right:10px;}
+.container{
+width:95%;
+max-width:900px;
+background:rgba(0,0,0,0.65);
+backdrop-filter:blur(12px);
+border-radius:20px;
+padding:25px;
+box-shadow:0 20px 40px rgba(0,0,0,0.4);
+animation:fadeIn 0.8s ease;
+}
 
-#endScreen { background:white; border-radius:20px; padding:25px; max-width:500px; margin:30px auto; box-shadow:0 8px 15px rgba(0,0,0,0.2);}
+@keyframes fadeIn{
+from{opacity:0;transform:scale(0.95)}
+to{opacity:1;transform:scale(1)}
+}
+
+h1{text-align:center;margin-bottom:15px;}
+
+.categories{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+justify-content:center;
+margin-bottom:20px;
+}
+
+.cat-btn{
+padding:12px 20px;
+border:none;
+border-radius:30px;
+cursor:pointer;
+font-weight:bold;
+background:linear-gradient(135deg,#ff9800,#ff5722);
+color:white;
+transition:transform .2s, box-shadow .2s;
+}
+
+.cat-btn:hover{
+transform:translateY(-3px);
+box-shadow:0 8px 15px rgba(0,0,0,.4);
+}
+
+.progress{
+height:12px;
+background:#333;
+border-radius:10px;
+overflow:hidden;
+margin:15px 0;
+}
+
+#progress-bar{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#00c6ff,#0072ff);
+transition:width .6s ease;
+}
+
+#question{
+font-size:1.4em;
+margin:20px 0;
+animation:slideIn .5s ease;
+}
+
+@keyframes slideIn{
+from{opacity:0;transform:translateY(20px)}
+to{opacity:1;transform:translateY(0)}
+}
+
+.answers{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+}
+
+.answer-btn{
+padding:15px;
+border:none;
+border-radius:15px;
+cursor:pointer;
+font-size:1em;
+background:#222;
+color:white;
+transition:transform .15s, background .3s;
+}
+
+.answer-btn:hover{
+transform:scale(1.03);
+background:#333;
+}
+
+.answer-btn.correct{
+background:#2e7d32;
+animation:pulse .4s ease;
+}
+
+.answer-btn.wrong{
+background:#c62828;
+animation:shake .3s ease;
+}
+
+@keyframes pulse{
+0%{transform:scale(1)}
+50%{transform:scale(1.05)}
+100%{transform:scale(1)}
+}
+
+@keyframes shake{
+0%{transform:translateX(0)}
+25%{transform:translateX(-5px)}
+50%{transform:translateX(5px)}
+75%{transform:translateX(-5px)}
+100%{transform:translateX(0)}
+}
+
+#definition{
+margin-top:20px;
+opacity:0;
+animation:fadeDef .6s forwards;
+}
+
+@keyframes fadeDef{
+to{opacity:1}
+}
+
+#definition img{
+width:100%;
+max-height:200px;
+object-fit:cover;
+border-radius:15px;
+margin:10px 0;
+}
+
+#next{
+margin-top:20px;
+padding:12px 25px;
+border:none;
+border-radius:25px;
+background:#00c6ff;
+color:black;
+font-weight:bold;
+cursor:pointer;
+display:none;
+transition:transform .2s;
+}
+
+#next:hover{
+transform:scale(1.05);
+}
+
+#final-score{
+margin-top:20px;
+font-size:1.2em;
+text-align:center;
+}
 </style>
 </head>
+
 <body>
-
+<div class="container">
 <h1>🧬 Biomimicry Explorer</h1>
-<p>Learn from nature by playing</p>
 
-<div class="mindmap">
-<button class="node center" onclick="unlock()">Biomimicry</button>
-<button class="node branch" onclick="startCategory(0)">Animals</button>
-<button class="node branch" onclick="startCategory(1)">Plants</button>
-<button class="node branch" onclick="startCategory(2)">Technology</button>
-<button class="node branch" onclick="startCategory(3)">Environment</button>
+<div class="categories" id="categories">
+<button class="cat-btn" onclick="startQuiz(0)">Animals</button>
+<button class="cat-btn" onclick="startQuiz(1)">Plants</button>
+<button class="cat-btn" onclick="startQuiz(2)">Technology</button>
+<button class="cat-btn" onclick="startQuiz(3)">Environment</button>
 </div>
 
-<div id="panel" class="hidden">
-<p id="progress"></p>
-<p id="question"></p>
-<div id="answers"></div>
-<p id="feedback"></p>
-<p id="fact"></p>
-<div id="definitions"></div>
-<button id="nextBtn" class="hidden" onclick="nextQuestion()">Next Question</button>
+<div class="progress">
+<div id="progress-bar"></div>
 </div>
 
-<p id="score">Score: 0</p>
-
-<div id="endScreen" class="hidden">
-<h2>🎉 Well done!</h2>
-<p>You answered all the questions.</p>
-<p id="finalScore"></p>
-<p>Biomimicry is learning from nature to design sustainable and innovative solutions.</p>
+<div id="question"></div>
+<div class="answers" id="answers"></div>
+<div id="definition"></div>
+<button id="next" onclick="nextQuestion()">Next question</button>
+<div id="final-score"></div>
 </div>
 
 <script>
-let score=0;
-let totalQuestions=0;
-let currentCategoryIndex=null;
-let questionCount=0;
-
-// ===================== Questions Complètes ===================== //
-const categories=[
+/* ===================== DATA ===================== */
+const data = [
 {
 name:"Animals",
 questions:[
-{q:"Which animal inspired Velcro?",answers:[{name:"Dog",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Dog_face.jpg/120px-Dog_face.jpg"},{name:"Burdock",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Burdock_burrs.JPG/120px-Burdock_burrs.JPG"},{name:"Bird",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Bird_sitting.jpg/120px-Bird_sitting.jpg"}],correct:1,fact:"Burdock seeds stick to animal fur, inspiring Velcro."},
-{q:"Which animal inspired sonar?",answers:[{name:"Bat",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Bat_flying.jpg/120px-Bat_flying.jpg"},{name:"Shark",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/White_shark.jpg/120px-White_shark.jpg"},{name:"Dolphin",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Dolphin.jpg/120px-Dolphin.jpg"}],correct:0,fact:"Bats use echolocation, inspiring sonar technology."},
-{q:"Which animal inspired sharkskin swimsuits?",answers:[{name:"Shark",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/White_shark.jpg/120px-White_shark.jpg"},{name:"Seal",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Seal.jpg/120px-Seal.jpg"},{name:"Whale",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Blue_Whale.jpg/120px-Blue_Whale.jpg"}],correct:0,fact:"Shark skin inspired swimsuits that reduce drag."},
-{q:"Which insect inspired swarm robotics?",answers:[{name:"Bees",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Apis_mellifera.jpg/120px-Apis_mellifera.jpg"},{name:"Ants",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Formica_rufa.jpg/120px-Formica_rufa.jpg"},{name:"Flies",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Housefly.jpg/120px-Housefly.jpg"}],correct:1,fact:"Ants inspire swarm robotics due to their collective behavior."},
-{q:"Which animal inspired the Velociraptor robot?",answers:[{name:"Cheetah",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Cheetah_running.jpg/120px-Cheetah_running.jpg"},{name:"Bird",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Bird_sitting.jpg/120px-Bird_sitting.jpg"},{name:"Lizard",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Lizard_on_rock.jpg/120px-Lizard_on_rock.jpg"}],correct:2,fact:"Lizard movements inspired agile robots like Velociraptor."}
+{q:"Which animal inspired Velcro?",answers:["Dog","Burdock","Bird"],correct:1,definition:{title:"Velcro",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Velcro2.jpg/320px-Velcro2.jpg",text:"Velcro is a fastening system inspired by burdock burrs that attach to animal fur."},justification:"Burdock seeds have tiny hooks that cling to animal fur, inspiring Velcro."},
+{q:"Which animal inspired sonar technology?",answers:["Bat","Shark","Dolphin"],correct:0,definition:{title:"Sonar",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Bat_flying.jpg/320px-Bat_flying.jpg",text:"Sonar detects objects using sound waves."},justification:"Bats use echolocation; engineers copied this to make sonar."},
+{q:"Which animal inspired sharkskin swimsuits?",answers:["Shark","Seal","Whale"],correct:0,definition:{title:"Sharkskin technology",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/White_shark.jpg/320px-White_shark.jpg",text:"Sharkskin reduces drag."},justification:"Shark skin ridges reduce friction, applied to swimsuits."},
+{q:"Which insect inspired swarm robotics?",answers:["Bees","Ants","Flies"],correct:1,definition:{title:"Swarm robotics",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Formica_rufa.jpg/320px-Formica_rufa.jpg",text:"Swarm robotics uses collective behaviour."},justification:"Ants cooperate to solve tasks; inspires robot swarms."},
+{q:"Which animal inspired stabilisation systems?",answers:["Cat","Horse","Owl"],correct:0,definition:{title:"Stabilisation systems",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Cat.jpg/320px-Cat.jpg",text:"Stabilisation keeps objects balanced."},justification:"Cats balance reflex inspired stabilisation in cameras and robots."}
 ]
 },
-// ===== Plants ===== //
 {
 name:"Plants",
 questions:[
-{q:"Which plant inspired self-cleaning surfaces?",answers:[{name:"Rose",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Rose.jpg/120px-Rose.jpg"},{name:"Lotus",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Lotus_leaf.jpg/120px-Lotus_leaf.jpg"},{name:"Oak",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Oak_tree.jpg/120px-Oak_tree.jpg"}],correct:1,fact:"Lotus leaves repel water, inspiring self-cleaning surfaces."},
-{q:"Which plant follows the sun?",answers:[{name:"Cactus",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Cactus.jpg/120px-Cactus.jpg"},{name:"Sunflower",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Sunflower.jpg/120px-Sunflower.jpg"},{name:"Fern",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Fern.jpg/120px-Fern.jpg"}],correct:1,fact:"Sunflowers track sunlight to optimize photosynthesis."},
-{q:"Which plant inspired Velcro?",answers:[{name:"Bamboo",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Bamboo.jpg/120px-Bamboo.jpg"},{name:"Burdock",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Burdock_burrs.JPG/120px-Burdock_burrs.JPG"},{name:"Pine",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Pine_tree.jpg/120px-Pine_tree.jpg"}],correct:1,fact:"Burdock hooks inspired Velcro fasteners."},
-{q:"Which plant collects water from air?",answers:[{name:"Cactus",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Cactus.jpg/120px-Cactus.jpg"},{name:"Moss",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Moss.jpg/120px-Moss.jpg"},{name:"Palm",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Palm_tree.jpg/120px-Palm_tree.jpg"}],correct:0,fact:"Cactus spines collect moisture from the air."},
-{q:"Which plant inspired cooling systems?",answers:[{name:"Tree",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Tree.jpg/120px-Tree.jpg"},{name:"Fern",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Fern.jpg/120px-Fern.jpg"},{name:"Cactus",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Cactus.jpg/120px-Cactus.jpg"}],correct:0,fact:"Tree canopies inspired passive cooling designs."}
+{q:"Which plant inspired self-cleaning surfaces?",answers:["Rose","Lotus","Oak"],correct:1,definition:{title:"Lotus effect",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Lotus_leaf.jpg/320px-Lotus_leaf.jpg",text:"Lotus leaves repel water and dirt."},justification:"Lotus leaves micro-texture prevents dirt; inspired self-cleaning surfaces."},
+{q:"Which plant follows the sun?",answers:["Cactus","Sunflower","Fern"],correct:1,definition:{title:"Heliotropism",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Sunflower.jpg/320px-Sunflower.jpg",text:"Heliotropism is moving toward sunlight."},justification:"Sunflowers rotate to absorb max light, inspiring solar panel movement."},
+{q:"Which plant inspired Velcro?",answers:["Bamboo","Burdock","Pine"],correct:1,definition:{title:"Burdock hooks",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Burdock_burrs.JPG/320px-Burdock_burrs.JPG",text:"Burdock burrs attach with hooks."},justification:"Burdock burrs inspired Velcro hooks."},
+{q:"Which plant inspired cooling systems?",answers:["Tree","Fern","Cactus"],correct:0,definition:{title:"Passive cooling",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Tree.jpg/320px-Tree.jpg",text:"Passive cooling reduces temperature without machines."},justification:"Trees shade and transpire, inspiring passive cooling."},
+{q:"Which plant collects water from air?",answers:["Cactus","Palm","Moss"],correct:0,definition:{title:"Water harvesting",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Cactus.jpg/320px-Cactus.jpg",text:"Water harvesting collects moisture from air."},justification:"Cactus spines condense moisture; inspires technology."}
 ]
 },
-// ===== Technology ===== //
 {
 name:"Technology",
 questions:[
-{q:"Which technology was inspired by bird wings?",answers:[{name:"Airplanes",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Airplane_sky.jpg/120px-Airplane_sky.jpg"},{name:"Boats",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Boat_on_water.jpg/120px-Boat_on_water.jpg"},{name:"Trains",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Train.jpg/120px-Train.jpg"}],correct:0,fact:"Bird wings inspired airplane lift and flight."},
-{q:"Which technology was inspired by gecko feet?",answers:[{name:"Climbing robots",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Robot_hand.jpg/120px-Robot_hand.jpg"},{name:"Smartphones",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Smartphone.jpg/120px-Smartphone.jpg"},{name:"Wind turbines",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Wind_turbine.jpg/120px-Wind_turbine.jpg"}],correct:0,fact:"Gecko adhesion inspired climbing robots."},
-{q:"Which technology was inspired by spider silk?",answers:[{name:"Stronger ropes",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Rope.jpg/120px-Rope.jpg"},{name:"Solar panels",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Solar_panel.jpg/120px-Solar_panel.jpg"},{name:"Batteries",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Battery.jpg/120px-Battery.jpg"}],correct:0,fact:"Spider silk inspired ultra-strong fibers."},
-{q:"Which technology was inspired by termite mounds?",answers:[{name:"Air conditioning systems",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Air_conditioner.jpg/120px-Air_conditioner.jpg"},{name:"Bridges",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Bridge.jpg/120px-Bridge.jpg"},{name:"Computers",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Laptop.jpg/120px-Laptop.jpg"}],correct:0,fact:"Termite mounds inspired passive cooling systems."},
-{q:"Which technology was inspired by fish scales?",answers:[{name:"Armor materials",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Armor.jpg/120px-Armor.jpg"},{name:"Bicycles",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Bicycle.jpg/120px-Bicycle.jpg"},{name:"Shoes",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Shoes.jpg/120px-Shoes.jpg"}],correct:0,fact:"Fish scales inspired lightweight protective materials."}
+{q:"Which bird inspired high-speed train design?",answers:["Eagle","Kingfisher","Falcon"],correct:1,definition:{title:"Biomimetic trains",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Kingfisher.jpg/320px-Kingfisher.jpg",text:"Train noses inspired by birds reduce noise and drag."},justification:"Kingfisher dives into water with no splash; shape inspired trains."},
+{q:"Which animal inspired wind turbine blades?",answers:["Shark","Humpback whale","Dolphin"],correct:1,definition:{title:"Wind turbine efficiency",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Humpback_whale.jpg/320px-Humpback_whale.jpg",text:"Whale fin tubercles increase lift."},justification:"Whale fins inspired better turbine aerodynamics."},
+{q:"Which animal inspired soft robotics?",answers:["Crab","Octopus","Starfish"],correct:1,definition:{title:"Soft robotics",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Octopus.jpg/320px-Octopus.jpg",text:"Soft robots are flexible."},justification:"Octopus tentacles inspired flexible robots."},
+{q:"Which insect inspired optimisation algorithms?",answers:["Ants","Bees","Beetles"],correct:0,definition:{title:"Ant algorithms",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Formica_rufa.jpg/320px-Formica_rufa.jpg",text:"Ant algorithms solve optimisation problems."},justification:"Ants find shortest paths; inspires algorithms."},
+{q:"Which animal inspired stabilised drones?",answers:["Cat","Owl","Bat"],correct:0,definition:{title:"Drone stabilisation",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Cat.jpg/320px-Cat.jpg",text:"Stabilisation keeps objects balanced."},justification:"Cats balance reflex inspired drone stabilisation."}
 ]
 },
-// ===== Environment ===== //
 {
 name:"Environment",
 questions:[
-{q:"Which design reduces urban heat inspired by forests?",answers:[{name:"Green roofs",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Green_roof.jpg/120px-Green_roof.jpg"},{name:"Concrete walls",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Concrete_wall.jpg/120px-Concrete_wall.jpg"},{name:"Metal roofs",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Metal_roof.jpg/120px-Metal_roof.jpg"}],correct:0,fact:"Green roofs mimic forests to reduce heat."},
-{q:"Which water system was inspired by beaver dams?",answers:[{name:"Reservoirs",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Reservoir.jpg/120px-Reservoir.jpg"},{name:"Pipes",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Water_pipes.jpg/120px-Water_pipes.jpg"},{name:"Water pumps",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Water_pump.jpg/120px-Water_pump.jpg"}],correct:0,fact:"Beaver dams inspired sustainable water management."},
-{q:"Which building design was inspired by termite mounds?",answers:[{name:"Passive cooling buildings",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Building.jpg/120px-Building.jpg"},{name:"Skyscrapers",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Skyscraper.jpg/120px-Skyscraper.jpg"},{name:"Bridges",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Bridge.jpg/120px-Bridge.jpg"}],correct:0,fact:"Termite mound ventilation inspired building design."},
-{q:"Which method inspired erosion control?",answers:[{name:"Terracing",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Terrace_farming.jpg/120px-Terrace_farming.jpg"},{name:"Dams",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Dam.jpg/120px-Dam.jpg"},{name:"Levees",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Levee.jpg/120px-Levee.jpg"}],correct:0,fact:"Terracing mimics natural slopes to prevent erosion."},
-{q:"Which energy source was inspired by photosynthesis?",answers:[{name:"Solar panels",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Solar_panel.jpg/120px-Solar_panel.jpg"},{name:"Wind turbines",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Wind_turbine.jpg/120px-Wind_turbine.jpg"},{name:"Hydroelectric dams",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Hydroelectric.jpg/120px-Hydroelectric.jpg"}],correct:0,fact:"Solar panels mimic photosynthesis."}
+{q:"Which structure inspired passive building ventilation?",answers:["Beehive","Termite mound","Ant nest"],correct:1,definition:{title:"Passive ventilation",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Termite_mound.jpg/320px-Termite_mound.jpg",text:"Passive ventilation regulates temperature naturally."},justification:"Termite mounds maintain stable temperature using air tunnels."},
+{q:"Which ecosystem inspired water purification?",answers:["Wetlands","Deserts","Oceans"],correct:0,definition:{title:"Natural filtration",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Wetland.jpg/320px-Wetland.jpg",text:"Wetlands filter pollutants naturally."},justification:"Wetlands trap pollutants, inspiring water treatment systems."},
+{q:"Which natural cycle inspired circular economy?",answers:["Carbon cycle","Rock cycle","Rainfall"],correct:0,definition:{title:"Circular economy",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Nutrient_cycle.jpg/320px-Nutrient_cycle.jpg",text:"Circular economy reduces waste."},justification:"Nature reuses materials; inspires circular economy."},
+{q:"Which plant structure inspired green roofs?",answers:["Roots","Tree canopy","Grass"],correct:1,definition:{title:"Green roofs",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Tree_canopy.jpg/320px-Tree_canopy.jpg",text:"Green roofs regulate urban temperature."},justification:"Tree canopies provide shade; inspires green roofs."},
+{q:"Which phenomenon inspired atmospheric water harvesting?",answers:["Fog","Rain","River"],correct:0,definition:{title:"Atmospheric water harvesting",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Cactus.jpg/320px-Cactus.jpg",text:"This technology collects water from air."},justification:"Plants condense fog; inspires water harvesting technology."}
 ]
 }
 ];
 
-// ================ Script principal ================ //
-totalQuestions = categories.reduce((sum,c)=>sum+c.questions.length,0);
+/* ===================== LOGIC ===================== */
+let currentCategory=null,currentQuestion=0,score=0,answered=false;
 
-function unlock(){document.querySelectorAll(".branch").forEach(b=>b.classList.add("show"));}
-function startCategory(index){currentCategoryIndex=index;questionCount=0;nextQuestion();}
+const qEl=document.getElementById("question");
+const answersEl=document.getElementById("answers");
+const defEl=document.getElementById("definition");
+const nextBtn=document.getElementById("next");
+const bar=document.getElementById("progress-bar");
+const finalScore=document.getElementById("final-score");
+const categoriesEl=document.getElementById("categories");
+
+function startQuiz(index){
+currentCategory=data[index];
+currentQuestion=0;
+score=0;
+answered=false;
+categoriesEl.style.display="none";
+finalScore.innerHTML="";
+loadQuestion();
+}
+
+function loadQuestion(){
+answered=false;
+nextBtn.style.display="none";
+defEl.style.opacity=0;
+answersEl.innerHTML="";
+const q=currentCategory.questions[currentQuestion];
+qEl.textContent=q.q;
+q.answers.forEach((ans,i)=>{
+const btn=document.createElement("button");
+btn.className="answer-btn";
+btn.textContent=ans;
+btn.onclick=()=>checkAnswer(btn,i);
+answersEl.appendChild(btn);
+});
+bar.style.width=(currentQuestion/currentCategory.questions.length*100)+"%";
+}
+
+function checkAnswer(btn,i){
+if(answered) return;
+answered=true;
+const q=currentCategory.questions[currentQuestion];
+document.querySelectorAll(".answer-btn").forEach(b=>b.disabled=true);
+if(i===q.correct){
+btn.classList.add("correct");
+score++;
+}else{
+btn.classList.add("wrong");
+document.querySelectorAll(".answer-btn")[q.correct].classList.add("correct");
+}
+defEl.innerHTML=`
+<h3>${q.definition.title}</h3>
+<img src="${q.definition.img}">
+<p><strong>Definition:</strong> ${q.definition.text}</p>
+<p><strong>Explanation:</strong> ${q.justification}</p>
+`;
+defEl.style.opacity=1;
+nextBtn.style.display="block";
+}
 
 function nextQuestion(){
-const cat=categories[currentCategoryIndex];
-if(cat.questions.length===0){checkEnd();return;}
-const qIndex=Math.floor(Math.random()*cat.questions.length);
-const q=cat.questions.splice(qIndex,1)[0];
-questionCountv document.getElementById("answers").innerHTML = "";
-document.getElementById("feedback").textContent = "";
-document.getElementById("fact").textContent = "";
-document.getElementById("definitions").innerHTML = "";
-document.getElementById("nextBtn").classList.add("hidden");
-document.getElementById("progress").textContent = `Question ${questionCount} / ${totalQuestions}`;
-
-q.answers.forEach((a, i) => {
-    const btn = document.createElement("button");
-    btn.className = "answer-btn";
-    btn.innerHTML = `<img src="${a.img}"> ${a.name}`;
-    btn.onclick = () => {
-        checkAnswer(i, q);
-    };
-    document.getElementById("answers").appendChild(btn);
-});
-
-// Definitions for key terms
-const defs = [];
-defs.push({
-    term: "Biomimicry",
-    def: "Learning from nature to solve human problems.",
-    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Nature_collage.jpg/120px-Nature_collage.jpg"
-});
-if(q.q.toLowerCase().includes("velcro")) defs.push({
-    term: "Velcro",
-    def: "A fastening system inspired by burdock hooks.",
-    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Velcro2.jpg/120px-Velcro2.jpg"
-});
-
-defs.forEach(d => {
-    const div = document.createElement("div");
-    div.className = "definition";
-    div.innerHTML = `<img src="${d.img}"> <strong>${d.term}:</strong> ${d.def}`;
-    document.getElementById("definitions").appendChild(div);
-});
+currentQuestion++;
+if(currentQuestion>=currentCategory.questions.length){
+qEl.textContent="Quiz finished!";
+answersEl.innerHTML="";
+defEl.innerHTML="";
+nextBtn.style.display="none";
+bar.style.width="100%";
+finalScore.innerHTML=`Final score: ${score} / ${currentCategory.questions.length}`;
+categoriesEl.style.display="flex";
+return;
 }
-
-function checkAnswer(choice, q){
-    document.querySelectorAll(".answer-btn").forEach(b => b.disabled = true);
-    document.getElementById("nextBtn").classList.remove("hidden");
-    if(choice === q.correct){
-        score++;
-        document.getElementById("feedback").textContent = "✅ Correct!";
-    } else {
-        document.getElementById("feedback").textContent = "❌ Wrong.";
-    }
-    document.getElementById("fact").textContent = "💡 " + q.fact;
-    document.getElementById("score").textContent = "Score: " + score;
+loadQuestion();
 }
-
-function checkEnd(){
-    const remaining = categories.some(c => c.questions.length > 0);
-    if(!remaining){
-        endGame();
-    }
-}
-
-function endGame(){
-    document.getElementById("panel").classList.add("hidden");
-    document.getElementById("endScreen").classList.remove("hidden");
-    document.getElementById("finalScore").textContent =
-        "Final score: " + score + " / " + totalQuestions;
-}
+</script>
+</body>
+</html>
