@@ -4,189 +4,47 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Biomimicry Explorer</title>
-
 <style>
 *{box-sizing:border-box;font-family:"Segoe UI",sans-serif;margin:0;padding:0;}
-
-body{
-min-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-background:linear-gradient(120deg,#1a2a6c,#b21f1f,#fdbb2d);
-background-size:400% 400%;
-animation:bgMove 15s ease infinite;
-color:white;
-}
-
-@keyframes bgMove{
-0%{background-position:0% 50%}
-50%{background-position:100% 50%}
-100%{background-position:0% 50%}
-}
-
-.container{
-width:95%;
-max-width:900px;
-background:rgba(0,0,0,0.65);
-backdrop-filter:blur(12px);
-border-radius:20px;
-padding:25px;
-box-shadow:0 20px 40px rgba(0,0,0,0.4);
-animation:fadeIn 0.8s ease;
-}
-
-@keyframes fadeIn{
-from{opacity:0;transform:scale(0.95)}
-to{opacity:1;transform:scale(1)}
-}
-
+body{min-height:100vh;display:flex;justify-content:center;align-items:center;background:linear-gradient(120deg,#1a2a6c,#b21f1f,#fdbb2d);background-size:400% 400%;animation:bgMove 15s ease infinite;color:white;}
+@keyframes bgMove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.container{width:95%;max-width:900px;background:rgba(0,0,0,0.65);backdrop-filter:blur(12px);border-radius:20px;padding:25px;box-shadow:0 20px 40px rgba(0,0,0,0.4);animation:fadeIn 0.8s ease;position:relative;}
+@keyframes fadeIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
 h1{text-align:center;margin-bottom:15px;}
-
-.categories{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-justify-content:center;
-margin-bottom:20px;
-}
-
-.cat-btn{
-padding:12px 20px;
-border:none;
-border-radius:30px;
-cursor:pointer;
-font-weight:bold;
-background:linear-gradient(135deg,#ff9800,#ff5722);
-color:white;
-transition:transform .2s, box-shadow .2s;
-}
-
-.cat-btn:hover{
-transform:translateY(-3px);
-box-shadow:0 8px 15px rgba(0,0,0,.4);
-}
-
-.progress{
-height:12px;
-background:#333;
-border-radius:10px;
-overflow:hidden;
-margin:15px 0;
-}
-
-#progress-bar{
-height:100%;
-width:0%;
-background:linear-gradient(90deg,#00c6ff,#0072ff);
-transition:width .6s ease;
-}
-
-#question{
-font-size:1.4em;
-margin:20px 0;
-animation:slideIn .5s ease;
-}
-
-@keyframes slideIn{
-from{opacity:0;transform:translateY(20px)}
-to{opacity:1;transform:translateY(0)}
-}
-
-.answers{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px;
-}
-
-.answer-btn{
-padding:15px;
-border:none;
-border-radius:15px;
-cursor:pointer;
-font-size:1em;
-background:#222;
-color:white;
-transition:transform .15s, background .3s;
-}
-
-.answer-btn:hover{
-transform:scale(1.03);
-background:#333;
-}
-
-.answer-btn.correct{
-background:#2e7d32;
-animation:pulse .4s ease;
-}
-
-.answer-btn.wrong{
-background:#c62828;
-animation:shake .3s ease;
-}
-
-@keyframes pulse{
-0%{transform:scale(1)}
-50%{transform:scale(1.05)}
-100%{transform:scale(1)}
-}
-
-@keyframes shake{
-0%{transform:translateX(0)}
-25%{transform:translateX(-5px)}
-50%{transform:translateX(5px)}
-75%{transform:translateX(-5px)}
-100%{transform:translateX(0)}
-}
-
-#definition{
-margin-top:20px;
-opacity:0;
-animation:fadeDef .6s forwards;
-}
-
-@keyframes fadeDef{
-to{opacity:1}
-}
-
-#definition img{
-width:100%;
-max-height:200px;
-object-fit:cover;
-border-radius:15px;
-margin:10px 0;
-}
-
-#next{
-margin-top:20px;
-padding:12px 25px;
-border:none;
-border-radius:25px;
-background:#00c6ff;
-color:black;
-font-weight:bold;
-cursor:pointer;
-display:none;
-transition:transform .2s;
-}
-
-#next:hover{
-transform:scale(1.05);
-}
-
-#final-score{
-margin-top:20px;
-font-size:1.2em;
-text-align:center;
-}
+.categories, #home-menu{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:20px;}
+.cat-btn, #play-btn{padding:12px 20px;border:none;border-radius:30px;cursor:pointer;font-weight:bold;background:linear-gradient(135deg,#ff9800,#ff5722);color:white;transition:transform .2s, box-shadow .2s;}
+.cat-btn:hover, #play-btn:hover{transform:translateY(-3px);box-shadow:0 8px 15px rgba(0,0,0,.4);}
+.progress, #category-progress{height:12px;background:#333;border-radius:10px;overflow:hidden;margin:15px 0;}
+#progress-bar, #cat-bar{height:100%;width:0%;background:linear-gradient(90deg,#00c6ff,#0072ff);transition:width .6s ease;}
+#question{font-size:1.4em;margin:20px 0;animation:slideIn .5s ease;}
+@keyframes slideIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:15px;}
+.answer-btn{padding:15px;border:none;border-radius:15px;cursor:pointer;font-size:1em;background:#222;color:white;transition:transform .15s, background .3s;}
+.answer-btn:hover{transform:scale(1.03);background:#333;}
+.answer-btn.correct{background:#2e7d32;animation:pulse .4s ease;}
+.answer-btn.wrong{background:#c62828;animation:shake .3s ease;}
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.05)}100%{transform:scale(1)}}
+@keyframes shake{0%{transform:translateX(0)}25%{transform:translateX(-5px)}50%{transform:translateX(5px)}75%{transform:translateX(-5px)}100%{transform:translateX(0)}}
+#definition{margin-top:20px;opacity:0;animation:fadeDef .6s forwards;}
+@keyframes fadeDef{to{opacity:1}}
+#definition img{width:100%;max-height:200px;object-fit:cover;border-radius:15px;margin:10px 0;}
+#next{margin-top:20px;padding:12px 25px;border:none;border-radius:25px;background:#00c6ff;color:black;font-weight:bold;cursor:pointer;display:none;transition:transform .2s;}
+#next:hover{transform:scale(1.05);}
+#final-score{margin-top:20px;font-size:1.2em;text-align:center;}
+#global-score{position:absolute;top:15px;right:25px;font-size:1.2em;font-weight:bold;}
+#global-score.animate{animation:scorePulse .6s ease;}
+@keyframes scorePulse{0%{transform:scale(1)}50%{transform:scale(1.5)}100%{transform:scale(1)}}
 </style>
 </head>
-
 <body>
 <div class="container">
 <h1>🧬 Biomimicry Explorer</h1>
 
-<div class="categories" id="categories">
+<div id="home-menu">
+<button id="play-btn">Play Quiz</button>
+</div>
+
+<div class="categories" id="categories" style="display:none;">
 <button class="cat-btn" onclick="startQuiz(0)">Animals</button>
 <button class="cat-btn" onclick="startQuiz(1)">Plants</button>
 <button class="cat-btn" onclick="startQuiz(2)">Technology</button>
@@ -194,8 +52,14 @@ text-align:center;
 </div>
 
 <div class="progress">
+<div id="cat-bar"></div>
+</div>
+
+<div class="progress">
 <div id="progress-bar"></div>
 </div>
+
+<div id="global-score">Score: 0</div>
 
 <div id="question"></div>
 <div class="answers" id="answers"></div>
@@ -207,121 +71,190 @@ text-align:center;
 <script>
 /* ===================== DATA ===================== */
 const data = [
-{
-name:"Animals",
-questions:[
-{q:"Which animal inspired Velcro?",answers:["Dog","Burdock","Bird"],correct:1,definition:{title:"Velcro",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Velcro2.jpg/320px-Velcro2.jpg",text:"Velcro is a fastening system inspired by burdock burrs that attach to animal fur."},justification:"Burdock seeds have tiny hooks that cling to animal fur, inspiring Velcro."},
-{q:"Which animal inspired sonar technology?",answers:["Bat","Shark","Dolphin"],correct:0,definition:{title:"Sonar",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Bat_flying.jpg/320px-Bat_flying.jpg",text:"Sonar detects objects using sound waves."},justification:"Bats use echolocation; engineers copied this to make sonar."},
-{q:"Which animal inspired sharkskin swimsuits?",answers:["Shark","Seal","Whale"],correct:0,definition:{title:"Sharkskin technology",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/White_shark.jpg/320px-White_shark.jpg",text:"Sharkskin reduces drag."},justification:"Shark skin ridges reduce friction, applied to swimsuits."},
-{q:"Which insect inspired swarm robotics?",answers:["Bees","Ants","Flies"],correct:1,definition:{title:"Swarm robotics",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Formica_rufa.jpg/320px-Formica_rufa.jpg",text:"Swarm robotics uses collective behaviour."},justification:"Ants cooperate to solve tasks; inspires robot swarms."},
-{q:"Which animal inspired stabilisation systems?",answers:["Cat","Horse","Owl"],correct:0,definition:{title:"Stabilisation systems",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Cat.jpg/320px-Cat.jpg",text:"Stabilisation keeps objects balanced."},justification:"Cats balance reflex inspired stabilisation in cameras and robots."}
-]
-},
-{
-name:"Plants",
-questions:[
-{q:"Which plant inspired self-cleaning surfaces?",answers:["Rose","Lotus","Oak"],correct:1,definition:{title:"Lotus effect",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Lotus_leaf.jpg/320px-Lotus_leaf.jpg",text:"Lotus leaves repel water and dirt."},justification:"Lotus leaves micro-texture prevents dirt; inspired self-cleaning surfaces."},
-{q:"Which plant follows the sun?",answers:["Cactus","Sunflower","Fern"],correct:1,definition:{title:"Heliotropism",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Sunflower.jpg/320px-Sunflower.jpg",text:"Heliotropism is moving toward sunlight."},justification:"Sunflowers rotate to absorb max light, inspiring solar panel movement."},
-{q:"Which plant inspired Velcro?",answers:["Bamboo","Burdock","Pine"],correct:1,definition:{title:"Burdock hooks",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Burdock_burrs.JPG/320px-Burdock_burrs.JPG",text:"Burdock burrs attach with hooks."},justification:"Burdock burrs inspired Velcro hooks."},
-{q:"Which plant inspired cooling systems?",answers:["Tree","Fern","Cactus"],correct:0,definition:{title:"Passive cooling",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Tree.jpg/320px-Tree.jpg",text:"Passive cooling reduces temperature without machines."},justification:"Trees shade and transpire, inspiring passive cooling."},
-{q:"Which plant collects water from air?",answers:["Cactus","Palm","Moss"],correct:0,definition:{title:"Water harvesting",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Cactus.jpg/320px-Cactus.jpg",text:"Water harvesting collects moisture from air."},justification:"Cactus spines condense moisture; inspires technology."}
-]
-},
-{
-name:"Technology",
-questions:[
-{q:"Which bird inspired high-speed train design?",answers:["Eagle","Kingfisher","Falcon"],correct:1,definition:{title:"Biomimetic trains",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Kingfisher.jpg/320px-Kingfisher.jpg",text:"Train noses inspired by birds reduce noise and drag."},justification:"Kingfisher dives into water with no splash; shape inspired trains."},
-{q:"Which animal inspired wind turbine blades?",answers:["Shark","Humpback whale","Dolphin"],correct:1,definition:{title:"Wind turbine efficiency",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Humpback_whale.jpg/320px-Humpback_whale.jpg",text:"Whale fin tubercles increase lift."},justification:"Whale fins inspired better turbine aerodynamics."},
-{q:"Which animal inspired soft robotics?",answers:["Crab","Octopus","Starfish"],correct:1,definition:{title:"Soft robotics",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Octopus.jpg/320px-Octopus.jpg",text:"Soft robots are flexible."},justification:"Octopus tentacles inspired flexible robots."},
-{q:"Which insect inspired optimisation algorithms?",answers:["Ants","Bees","Beetles"],correct:0,definition:{title:"Ant algorithms",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Formica_rufa.jpg/320px-Formica_rufa.jpg",text:"Ant algorithms solve optimisation problems."},justification:"Ants find shortest paths; inspires algorithms."},
-{q:"Which animal inspired stabilised drones?",answers:["Cat","Owl","Bat"],correct:0,definition:{title:"Drone stabilisation",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Cat.jpg/320px-Cat.jpg",text:"Stabilisation keeps objects balanced."},justification:"Cats balance reflex inspired drone stabilisation."}
-]
-},
-{
-name:"Environment",
-questions:[
-{q:"Which structure inspired passive building ventilation?",answers:["Beehive","Termite mound","Ant nest"],correct:1,definition:{title:"Passive ventilation",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Termite_mound.jpg/320px-Termite_mound.jpg",text:"Passive ventilation regulates temperature naturally."},justification:"Termite mounds maintain stable temperature using air tunnels."},
-{q:"Which ecosystem inspired water purification?",answers:["Wetlands","Deserts","Oceans"],correct:0,definition:{title:"Natural filtration",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Wetland.jpg/320px-Wetland.jpg",text:"Wetlands filter pollutants naturally."},justification:"Wetlands trap pollutants, inspiring water treatment systems."},
-{q:"Which natural cycle inspired circular economy?",answers:["Carbon cycle","Rock cycle","Rainfall"],correct:0,definition:{title:"Circular economy",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Nutrient_cycle.jpg/320px-Nutrient_cycle.jpg",text:"Circular economy reduces waste."},justification:"Nature reuses materials; inspires circular economy."},
-{q:"Which plant structure inspired green roofs?",answers:["Roots","Tree canopy","Grass"],correct:1,definition:{title:"Green roofs",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Tree_canopy.jpg/320px-Tree_canopy.jpg",text:"Green roofs regulate urban temperature."},justification:"Tree canopies provide shade; inspires green roofs."},
-{q:"Which phenomenon inspired atmospheric water harvesting?",answers:["Fog","Rain","River"],correct:0,definition:{title:"Atmospheric water harvesting",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Cactus.jpg/320px-Cactus.jpg",text:"This technology collects water from air."},justification:"Plants condense fog; inspires water harvesting technology."}
-]
-}
+{ name:"Animals", questions:[
+  {q:"Which animal inspired aerodynamic car shapes?",answers:["Cheetah","Eagle","Shark"],correct:0,definition:{title:"Cheetah cars",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Cheetah_in_Africa.jpg/320px-Cheetah_in_Africa.jpg",text:"Streamlined bodies inspire car shapes."},justification:"The cheetah's body reduces air resistance."},
+  {q:"Which animal inspired sonar technology?",answers:["Bat","Shark","Dolphin"],correct:0,definition:{title:"Sonar",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Bat_flying.jpg/320px-Bat_flying.jpg",text:"Bats use echolocation."},justification:"Bats’ echolocation inspired sonar."},
+  {q:"Which animal inspired sharkskin swimsuits?",answers:["Shark","Seal","Whale"],correct:0,definition:{title:"Sharkskin technology",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/White_shark.jpg/320px-White_shark.jpg",text:"Shark skin reduces drag."},justification:"Shark skin ridges reduce friction in swimsuits."},
+  {q:"Which insect inspired swarm robotics?",answers:["Bees","Ants","Flies"],correct:1,definition:{title:"Swarm robotics",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Formica_rufa.jpg/320px-Formica_rufa.jpg",text:"Ants cooperate in tasks."},justification:"Ants' teamwork inspired robot swarms."},
+  {q:"Which animal inspired stabilisation systems?",answers:["Cat","Horse","Owl"],correct:0,definition:{title:"Stabilisation systems",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Cat.jpg/320px-Cat.jpg",text:"Cats balance reflex inspired stabilisation."},justification:"Cats balance reflex inspired camera and drone stabilisation."},
+  {q:"Which animal inspired bionic arms?",answers:["Elephant","Octopus","Cheetah"],correct:1,definition:{title:"Bionic arms",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Octopus.jpg/320px-Octopus.jpg",text:"Flexible limbs inspire soft robotics."},justification:"Octopus tentacles inspired flexible robotic arms."},
+  {q:"Which animal inspired high-speed trains?",answers:["Falcon","Kingfisher","Eagle"],correct:1,definition:{title:"Kingfisher train",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Kingfisher.jpg/320px-Kingfisher.jpg",text:"Kingfisher’s beak reduces splash when diving."},justification:"The Shinkansen train nose design copied the kingfisher’s beak."},
+  {q:"Which animal inspired adhesive pads?",answers:["Gecko","Frog","Lizard"],correct:0,definition:{title:"Gecko feet",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Gecko_on_glass.jpg/320px-Gecko_on_glass.jpg",text:"Tiny hairs allow sticking to surfaces."},justification:"Gecko feet inspired adhesive technologies."},
+  {q:"Which animal inspired wind turbine blades?",answers:["Humpback whale","Shark","Bird"],correct:0,definition:{title:"Whale fins",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Humpback_whale.jpg/320px-Humpback_whale.jpg",text:"Whale fins improve lift and efficiency."},justification:"Tubercles on fins inspired turbine blade designs."},
+  {q:"Which animal inspired robotic vision?",answers:["Owl","Cat","Eagle"],correct:2,definition:{title:"Eagle vision",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Eagle_flying.jpg/320px-Eagle_flying.jpg",text:"Sharp vision inspires cameras."},justification:"Eagle’s eyesight inspired high-resolution camera lenses."},
+  {q:"Which animal inspired quiet airplane wings?",answers:["Owl","Bat","Eagle"],correct:0,definition:{title:"Owl wings",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Owl_in_flight.jpg/320px-Owl_in_flight.jpg",text:"Soft feathers reduce noise."},justification:"Owls’ silent flight inspired quiet wing designs."},
+  {q:"Which animal inspired camouflage technology?",answers:["Chameleon","Cuttlefish","Octopus"],correct:0,definition:{title:"Chameleon",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Chameleon_on_tree.jpg/320px-Chameleon_on_tree.jpg",text:"Color-changing skin inspires camouflage."},justification:"Chameleon skin inspired adaptive camouflage materials."},
+  {q:"Which animal inspired energy-efficient swimming suits?",answers:["Dolphin","Shark","Seal"],correct:0,definition:{title:"Dolphin suit",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Bottlenose_Dolphin.jpg/320px-Bottlenose_Dolphin.jpg",text:"Skin reduces drag."},justification:"Dolphin skin inspired drag-reducing swimsuits."},
+  {q:"Which animal inspired high-jump robotics?",answers:["Frog","Kangaroo","Cat"],correct:1,definition:{title:"Kangaroo legs",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Kangaroo_in_Australia.jpg/320px-Kangaroo_in_Australia.jpg",text:"Powerful legs for jumping."},justification:"Kangaroo leg motion inspired jumping robots."},
+  {q:"Which animal inspired flexible exoskeletons?",answers:["Crab","Octopus","Insect"],correct:2,definition:{title:"Insect exoskeleton",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Beetle_Metamorphosis.jpg/320px-Beetle_Metamorphosis.jpg",text:"Light and strong exoskeleton."},justification:"Insect exoskeleton inspired lightweight robotics."},
+  {q:"Which animal inspired advanced prosthetic hands?",answers:["Elephant","Octopus","Monkey"],correct:2,definition:{title:"Monkey hands",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Monkey_hands.jpg/320px-Monkey_hands.jpg",text:"Dexterous fingers inspire prosthetics."},justification:"Monkey hand movement inspired prosthetic design."},
+  {q:"Which animal inspired climbing robots?",answers:["Spider","Goat","Cat"],correct:0,definition:{title:"Spider robots",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Spider_climbing.jpg/320px-Spider_climbing.jpg",text:"Multiple legs for climbing."},justification:"Spider motion inspired climbing robots."},
+  {q:"Which animal inspired stealth drones?",answers:["Bat","Owl","Falcon"],correct:1,definition:{title:"Owl stealth",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Owl_in_flight.jpg/320px-Owl_in_flight.jpg",text:"Silent flight reduces noise."},justification:"Owl wing design inspired stealth drones."},
+  {q:"Which animal inspired temperature regulation in robots?",answers:["Penguin","Elephant","Camel"],correct:2,definition:{title:"Camel cooling",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Camel_in_desert.jpg/320px-Camel_in_desert.jpg",text:"Camel body adapts to heat."},justification:"Camel inspired passive cooling in robots."},
+  {q:"Which animal inspired water-repellent coatings?",answers:["Duck","Seal","Frog"],correct:0,definition:{title:"Duck feathers",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Duck_in_water.jpg/320px-Duck_in_water.jpg",text:"Feathers repel water."},justification:"Duck feathers inspired water-repellent coatings."}
+]},
+{ name:"Plants", questions:[
+  {q:"Which plant inspired self-cleaning surfaces?",answers:["Rose","Lotus","Oak"],correct:1,definition:{title:"Lotus effect",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Lotus_leaf.jpg/320px-Lotus_leaf.jpg",text:"Lotus leaves repel water and dirt."},justification:"Lotus leaves' micro-texture inspired self-cleaning surfaces."},
+  {q:"Which plant follows the sun?",answers:["Cactus","Sunflower","Fern"],correct:1,definition:{title:"Heliotropism",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Sunflower.jpg/320px-Sunflower.jpg",text:"Heliotropism is moving toward sunlight."},justification:"Sunflowers rotate to absorb maximum light, inspiring solar panel tracking."},
+  {q:"Which plant inspired cooling systems?",answers:["Tree","Fern","Cactus"],correct:0,definition:{title:"Passive cooling",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Tree.jpg/320px-Tree.jpg",text:"Trees shade and transpire to reduce heat."},justification:"Trees inspired passive cooling in buildings."},
+  {q:"Which plant collects water from air?",answers:["Cactus","Palm","Moss"],correct:0,definition:{title:"Water harvesting",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Cactus.jpg/320px-Cactus.jpg",text:"Cactus spines condense moisture."},justification:"Cactus inspired technologies to collect water from air."},
+  {q:"Which plant inspired efficient root networks?",answers:["Carrot","Bamboo","Oak"],correct:1,definition:{title:"Bamboo roots",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Bamboo_roots.jpg/320px-Bamboo_roots.jpg",text:"Roots grow quickly and efficiently."},justification:"Bamboo root growth inspired efficient irrigation designs."},
+  {q:"Which plant inspired solar panels rotation?",answers:["Sunflower","Cactus","Palm"],correct:0,definition:{title:"Sunflower heliotropism",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Sunflower.jpg/320px-Sunflower.jpg",text:"Sunflowers follow the sun."},justification:"Sunflowers inspired rotating solar panels."},
+  {q:"Which plant inspired water retention structures?",answers:["Cactus","Fern","Moss"],correct:0,definition:{title:"Cactus",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Cactus.jpg/320px-Cactus.jpg",text:"Stores water in arid environments."},justification:"Cactus water storage inspired drought-resistant tech."},
+  {q:"Which plant inspired lightweight architecture?",answers:["Bamboo","Willow","Palm"],correct:0,definition:{title:"Bamboo",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Bamboo_forest.jpg/320px-Bamboo_forest.jpg",text:"Bamboo is strong and light."},justification:"Bamboo inspired sustainable lightweight structures."},
+  {q:"Which plant inspired nutrient recycling?",answers:["Fern","Moss","Tree"],correct:2,definition:{title:"Trees",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Tree_canopy.jpg/320px-Tree_canopy.jpg",text:"Leaf litter recycles nutrients."},justification:"Trees inspired closed-loop systems in agriculture."},
+  {q:"Which plant inspired air purification systems?",answers:["Ficus","Fern","Cactus"],correct:1,definition:{title:"Fern",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Ferns_in_forest.jpg/320px-Ferns_in_forest.jpg",text:"Ferns clean air naturally."},justification:"Ferns inspired indoor air purifiers."},
+  {q:"Which plant inspired green roofs?",answers:["Grass","Tree canopy","Bush"],correct:1,definition:{title:"Tree canopy",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Tree_canopy.jpg/320px-Tree_canopy.jpg",text:"Tree canopy provides shade and cooling."},justification:"Tree canopies inspired urban green roofs."},
+  {q:"Which plant inspired moisture-absorbing materials?",answers:["Moss","Fern","Cactus"],correct:0,definition:{title:"Moss",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Moss_closeup.jpg/320px-Moss_closeup.jpg",text:"Moss absorbs water from surroundings."},justification:"Moss inspired hydrogel water absorption materials."},
+  {q:"Which plant inspired solar shading designs?",answers:["Palm","Tree","Vine"],correct:1,definition:{title:"Tree shading",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Tree.jpg/320px-Tree.jpg",text:"Trees provide shade and reduce heat."},justification:"Trees inspired solar shading in architecture."},
+  {q:"Which plant inspired windbreaks?",answers:["Hedge","Tree","Bush"],correct:0,definition:{title:"Hedge",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Hedge.jpg/320px-Hedge.jpg",text:"Hedges block and redirect wind."},justification:"Hedges inspired windbreaks for fields and gardens."},
+  {q:"Which plant inspired water collection from fog?",answers:["Moss","Cactus","Tree"],correct:1,definition:{title:"Cactus spines",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Cactus.jpg/320px-Cactus.jpg",text:"Cactus spines condense fog into water."},justification:"Cactus spines inspired fog-harvesting systems."},
+  {q:"Which plant inspired biodegradable packaging?",answers:["Banana leaf","Palm","Corn"],correct:0,definition:{title:"Banana leaf",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Banana_leaf.jpg/320px-Banana_leaf.jpg",text:"Leaves are biodegradable and strong."},justification:"Banana leaves inspired sustainable packaging."},
+  {q:"Which plant inspired energy storage designs?",answers:["Pumpkin","Oak","Sunflower"],correct:2,definition:{title:"Sunflower",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Sunflower.jpg/320px-Sunflower.jpg",text:"Sunflowers store energy and track sunlight."},justification:"Sunflowers inspired solar energy tracking systems."},
+  {q:"Which plant inspired water-saving irrigation?",answers:["Cactus","Bamboo","Rice"],correct:0,definition:{title:"Cactus",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Cactus.jpg/320px-Cactus.jpg",text:"Cactus retains water efficiently."},justification:"Cactus inspired drip irrigation and water-saving techniques."},
+  {q:"Which plant inspired structural fibers?",answers:["Bamboo","Hemp","Cotton"],correct:1,definition:{title:"Hemp",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Hemp_field.jpg/320px-Hemp_field.jpg",text:"Strong natural fibers."},justification:"Hemp fibers inspired sustainable textiles and ropes."},
+  {q:"Which plant inspired natural adhesives?",answers:["Pine","Acacia","Oak"],correct:1,definition:{title:"Acacia",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Acacia_tree.jpg/320px-Acacia_tree.jpg",text:"Produces sticky gum."},justification:"Acacia gum inspired natural adhesive materials."}
+]},
+{ name:"Technology", questions:[
+  {q:"Which bird inspired high-speed train design?",answers:["Eagle","Kingfisher","Falcon"],correct:1,definition:{title:"Biomimetic trains",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Kingfisher.jpg/320px-Kingfisher.jpg",text:"Train noses inspired by birds reduce noise and drag."},justification:"Kingfisher dives into water with no splash; shape inspired Shinkansen trains."},
+  {q:"Which animal inspired wind turbine blades?",answers:["Shark","Humpback whale","Dolphin"],correct:1,definition:{title:"Wind turbine efficiency",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Humpback_whale.jpg/320px-Humpback_whale.jpg",text:"Whale fin tubercles increase lift."},justification:"Humpback whale fins inspired better turbine aerodynamics."},
+  {q:"Which animal inspired soft robotics?",answers:["Crab","Octopus","Starfish"],correct:1,definition:{title:"Soft robotics",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Octopus.jpg/320px-Octopus.jpg",text:"Soft robots are flexible."},justification:"Octopus tentacles inspired flexible robot arms."},
+  {q:"Which insect inspired optimisation algorithms?",answers:["Ants","Bees","Beetles"],correct:0,definition:{title:"Ant algorithms",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Formica_rufa.jpg/320px-Formica_rufa.jpg",text:"Ant algorithms solve optimisation problems."},justification:"Ants find shortest paths; inspires algorithms."},
+  {q:"Which animal inspired stabilised drones?",answers:["Cat","Owl","Bat"],correct:0,definition:{title:"Drone stabilisation",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Cat.jpg/320px-Cat.jpg",text:"Stabilisation keeps objects balanced."},justification:"Cats balance reflex inspired drone stabilisation."},
+  {q:"Which animal inspired robotic grippers?",answers:["Crab","Octopus","Elephant"],correct:1,definition:{title:"Octopus grippers",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Octopus.jpg/320px-Octopus.jpg",text:"Flexible limbs for gripping."},justification:"Octopus suction cups inspired robotic grippers."},
+  {q:"Which animal inspired camera autofocus?",answers:["Eagle","Cat","Falcon"],correct:0,definition:{title:"Eagle vision",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Eagle_flying.jpg/320px-Eagle_flying.jpg",text:"Sharp vision inspires autofocus cameras."},justification:"Eagle’s eyesight inspired camera systems."},
+  {q:"Which animal inspired obstacle avoidance sensors?",answers:["Bat","Owl","Dolphin"],correct:2,definition:{title:"Dolphin echolocation",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Bottlenose_Dolphin.jpg/320px-Bottlenose_Dolphin.jpg",text:"Uses sound to detect objects."},justification:"Dolphins inspired sonar-based obstacle sensors."},
+  {q:"Which animal inspired flexible exosuits?",answers:["Crab","Octopus","Spider"],correct:1,definition:{title:"Octopus-inspired exosuits",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Octopus.jpg/320px-Octopus.jpg",text:"Flexible movement inspired wearable robotics."},justification:"Octopus limbs inspired flexible exosuits."},
+  {q:"Which insect inspired swarm drones?",answers:["Bees","Ants","Termites"],correct:1,definition:{title:"Swarm drones",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Formica_rufa.jpg/320px-Formica_rufa.jpg",text:"Collective behavior coordinates drones."},justification:"Ants’ teamwork inspired drone swarms."},
+  {q:"Which animal inspired underwater robots?",answers:["Shark","Seal","Octopus"],correct:2,definition:{title:"Soft robotics underwater",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Octopus.jpg/320px-Octopus.jpg",text:"Flexible robots mimic movement."},justification:"Octopus movement inspired underwater robots."},
+  {q:"Which bird inspired silent airplane wings?",answers:["Owl","Eagle","Falcon"],correct:0,definition:{title:"Owl wings",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Owl_in_flight.jpg/320px-Owl_in_flight.jpg",text:"Feathers reduce noise."},justification:"Owl silent flight inspired quiet aircraft wings."},
+  {q:"Which animal inspired climbing robots?",answers:["Spider","Goat","Monkey"],correct:0,definition:{title:"Spider robots",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Spider_climbing.jpg/320px-Spider_climbing.jpg",text:"Multiple legs for climbing."},justification:"Spider locomotion inspired climbing robots."},
+  {q:"Which animal inspired heat-resistant materials?",answers:["Camel","Elephant","Penguin"],correct:0,definition:{title:"Camel body",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Camel_in_desert.jpg/320px-Camel_in_desert.jpg",text:"Body adapts to heat."},justification:"Camel inspired heat-resistant technologies."},
+  {q:"Which animal inspired stealth drones?",answers:["Bat","Owl","Falcon"],correct:1,definition:{title:"Owl stealth",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Owl_in_flight.jpg/320px-Owl_in_flight.jpg",text:"Silent wings for stealth."},justification:"Owl wing structure inspired stealth drones."},
+  {q:"Which animal inspired high-precision sensors?",answers:["Eagle","Cat","Bat"],correct:0,definition:{title:"Eagle vision sensors",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Eagle_flying.jpg/320px-Eagle_flying.jpg",text:"Sharp sight inspires sensors."},justification:"Eagle eyes inspired high-precision sensors."},
+  {q:"Which animal inspired flexible drones?",answers:["Octopus","Bat","Cat"],correct:0,definition:{title:"Octopus-inspired drones",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Octopus.jpg/320px-Octopus.jpg",text:"Flexible movement inspires drone design."},justification:"Octopus motion inspired flexible drones."},
+  {q:"Which animal inspired hydraulic robotics?",answers:["Elephant","Octopus","Horse"],correct:0,definition:{title:"Elephant trunk robotics",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Elephant_trunk.jpg/320px-Elephant_trunk.jpg",text:"Trunk movement inspires hydraulic arms."},justification:"Elephant trunks inspired hydraulic robotic arms."},
+  {q:"Which animal inspired vibration damping?",answers:["Cat","Owl","Kangaroo"],correct:0,definition:{title:"Cat balance",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Cat.jpg/320px-Cat.jpg",text:"Cats absorb impact."},justification:"Cats' balance and landing inspired vibration damping."},
+  {q:"Which animal inspired modular robotics?",answers:["Ants","Bees","Termites"],correct:0,definition:{title:"Ant modular behavior",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Formica_rufa.jpg/320px-Formica_rufa.jpg",text:"Ant cooperation inspires modular systems."},justification:"Ants’ collaboration inspired modular robotic designs."}
+]},
+{ name:"Environment", questions:[
+  {q:"Which structure inspired passive building ventilation?",answers:["Beehive","Termite mound","Ant nest"],correct:1,definition:{title:"Passive ventilation",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Termite_mound.jpg/320px-Termite_mound.jpg",text:"Termite mounds regulate temperature naturally."},justification:"Termite mounds maintain stable temperature using air tunnels."},
+  {q:"Which ecosystem inspired water purification?",answers:["Wetlands","Deserts","Oceans"],correct:0,definition:{title:"Natural filtration",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Wetland.jpg/320px-Wetland.jpg",text:"Wetlands filter pollutants naturally."},justification:"Wetlands trap pollutants, inspiring water treatment systems."},
+  {q:"Which natural cycle inspired circular economy?",answers:["Carbon cycle","Rock cycle","Rainfall"],correct:0,definition:{title:"Circular economy",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Nutrient_cycle.jpg/320px-Nutrient_cycle.jpg",text:"Circular economy reduces waste."},justification:"Nature reuses materials; inspires circular economy."},
+  {q:"Which plant structure inspired green roofs?",answers:["Roots","Tree canopy","Grass"],correct:1,definition:{title:"Green roofs",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Tree_canopy.jpg/320px-Tree_canopy.jpg",text:"Green roofs regulate urban temperature."},justification:"Tree canopies provide shade; inspires green roofs."},
+  {q:"Which phenomenon inspired atmospheric water harvesting?",answers:["Fog","Rain","River"],correct:0,definition:{title:"Atmospheric water harvesting",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Cactus.jpg/320px-Cactus.jpg",text:"This technology collects water from air."},justification:"Plants condense fog; inspires water harvesting technology."},
+  {q:"Which ecosystem inspired flood management?",answers:["Mangroves","Deserts","Tundra"],correct:0,definition:{title:"Mangrove roots",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Mangrove_forest.jpg/320px-Mangrove_forest.jpg",text:"Roots absorb water and reduce flooding."},justification:"Mangroves inspired urban flood management systems."},
+  {q:"Which natural process inspired soil stabilization?",answers:["Earthworms","Beavers","Corals"],correct:2,definition:{title:"Coral reefs",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Coral_reef.jpg/320px-Coral_reef.jpg",text:"Reefs stabilize coastlines."},justification:"Coral reefs inspired erosion control and soil stabilization."},
+  {q:"Which ecosystem inspired urban cooling?",answers:["Forest","Wetland","Savannah"],correct:0,definition:{title:"Forest cooling",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Forest_canopy.jpg/320px-Forest_canopy.jpg",text:"Forests reduce local temperature."},justification:"Forests inspired urban greening and cooling strategies."},
+  {q:"Which natural material inspired biodegradable packaging?",answers:["Seaweed","Leaves","Moss"],correct:1,definition:{title:"Leaves",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Banana_leaf.jpg/320px-Banana_leaf.jpg",text:"Leaves are biodegradable."},justification:"Leaves inspired eco-friendly packaging."},
+  {q:"Which ecosystem inspired renewable water systems?",answers:["Wetlands","Glaciers","Deserts"],correct:0,definition:{title:"Wetlands",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Wetland.jpg/320px-Wetland.jpg",text:"Wetlands recycle and store water."},justification:"Wetlands inspired sustainable water management."},
+  {q:"Which natural phenomenon inspired wind farms placement?",answers:["Mountain passes","Rivers","Deserts"],correct:0,definition:{title:"Wind corridors",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Wind_farm.jpg/320px-Wind_farm.jpg",text:"Wind patterns guide turbine placement."},justification:"Mountain passes inspired optimal wind farm locations."},
+  {q:"Which natural cycle inspired waste composting?",answers:["Nitrogen cycle","Water cycle","Carbon cycle"],correct:2,definition:{title:"Carbon cycle",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Nutrient_cycle.jpg/320px-Nutrient_cycle.jpg",text:"Carbon moves through nature naturally."},justification:"Carbon cycle inspired composting systems."},
+  {q:"Which plant inspired water-saving landscaping?",answers:["Cactus","Fern","Palm"],correct:0,definition:{title:"Cactus",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Cactus.jpg/320px-Cactus.jpg",text:"Stores water efficiently."},justification:"Cactus inspired xeriscaping techniques."},
+  {q:"Which natural material inspired insulation?",answers:["Wool","Leaves","Sand"],correct:0,definition:{title:"Wool",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Wool_sheep.jpg/320px-Wool_sheep.jpg",text:"Traps heat effectively."},justification:"Wool inspired eco-friendly insulation materials."},
+  {q:"Which ecosystem inspired aquaponics?",answers:["Wetlands","Mangroves","Deserts"],correct:0,definition:{title:"Wetlands",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Wetland.jpg/320px-Wetland.jpg",text:"Plants and fish recycle nutrients."},justification:"Wetlands inspired aquaponics systems."},
+  {q:"Which animal structure inspired erosion control?",answers:["Beaver dams","Coral reefs","Ant hills"],correct:0,definition:{title:"Beaver dams",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Beaver_dam.jpg/320px-Beaver_dam.jpg",text:"Dams manage water flow and prevent erosion."},justification:"Beaver dams inspired riverbank erosion control."},
+  {q:"Which ecosystem inspired urban parks?",answers:["Savannah","Forest","Mangroves"],correct:1,definition:{title:"Forest",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Forest_canopy.jpg/320px-Forest_canopy.jpg",text:"Forests provide shade and cooling."},justification:"Forests inspired city park design for climate and recreation."},
+  {q:"Which natural process inspired water filtration?",answers:["Sand","Rock","Leaves"],correct:0,definition:{title:"Sand filtration",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Sand.jpg/320px-Sand.jpg",text:"Sand filters impurities from water."},justification:"Natural sand filtration inspired water purification systems."},
+  {q:"Which plant inspired renewable energy storage?",answers:["Sunflower","Cactus","Palm"],correct:0,definition:{title:"Sunflower",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Sunflower.jpg/320px-Sunflower.jpg",text:"Tracks the sun and stores energy."},justification:"Sunflower inspired solar energy storage and tracking."},
+  {q:"Which ecosystem inspired stormwater management?",answers:["Mangroves","Deserts","Grasslands"],correct:0,definition:{title:"Mangroves",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Mangrove_forest.jpg/320px-Mangrove_forest.jpg",text:"Roots reduce flood impact."},justification:"Mangrove ecosystems inspired urban stormwater management."}
+]}
 ];
 
 /* ===================== LOGIC ===================== */
-let currentCategory=null,currentQuestion=0,score=0,answered=false;
+let currentCategory=null, currentCategoryIndex=0, currentQuestion=0, score=0, answered=false;
+let usedQuestions=[], catProgress=0, completedCategories=[];
 
 const qEl=document.getElementById("question");
 const answersEl=document.getElementById("answers");
 const defEl=document.getElementById("definition");
 const nextBtn=document.getElementById("next");
 const bar=document.getElementById("progress-bar");
+const catBar=document.getElementById("cat-bar");
 const finalScore=document.getElementById("final-score");
 const categoriesEl=document.getElementById("categories");
+const homeMenu=document.getElementById("home-menu");
+const globalScore=document.getElementById("global-score");
+const playBtn=document.getElementById("play-btn");
+
+playBtn.onclick = ()=>{
+  homeMenu.style.display="none";
+  categoriesEl.style.display="flex";
+};
 
 function startQuiz(index){
-currentCategory=data[index];
-currentQuestion=0;
-score=0;
-answered=false;
-categoriesEl.style.display="none";
-finalScore.innerHTML="";
-loadQuestion();
+  currentCategoryIndex = index;
+  currentCategory = data[index];
+  currentQuestion = 0;
+  answered = false;
+  usedQuestions = [];
+  while(usedQuestions.length<5){
+    let r = Math.floor(Math.random()*currentCategory.questions.length);
+    if(!usedQuestions.includes(r)) usedQuestions.push(r);
+  }
+  finalScore.innerHTML="";
+  loadQuestion();
 }
 
 function loadQuestion(){
-answered=false;
-nextBtn.style.display="none";
-defEl.style.opacity=0;
-answersEl.innerHTML="";
-const q=currentCategory.questions[currentQuestion];
-qEl.textContent=q.q;
-q.answers.forEach((ans,i)=>{
-const btn=document.createElement("button");
-btn.className="answer-btn";
-btn.textContent=ans;
-btn.onclick=()=>checkAnswer(btn,i);
-answersEl.appendChild(btn);
-});
-bar.style.width=(currentQuestion/currentCategory.questions.length*100)+"%";
+  answered=false;
+  nextBtn.style.display="none";
+  defEl.style.opacity=0;
+  answersEl.innerHTML="";
+  let q=currentCategory.questions[usedQuestions[currentQuestion]];
+  qEl.textContent=q.q;
+  q.answers.forEach((ans,i)=>{
+    const btn=document.createElement("button");
+    btn.className="answer-btn";
+    btn.textContent=ans;
+    btn.onclick=()=>checkAnswer(btn,i);
+    answersEl.appendChild(btn);
+  });
+  bar.style.width=(currentQuestion/usedQuestions.length*100)+"%";
 }
 
 function checkAnswer(btn,i){
-if(answered) return;
-answered=true;
-const q=currentCategory.questions[currentQuestion];
-document.querySelectorAll(".answer-btn").forEach(b=>b.disabled=true);
-if(i===q.correct){
-btn.classList.add("correct");
-score++;
-}else{
-btn.classList.add("wrong");
-document.querySelectorAll(".answer-btn")[q.correct].classList.add("correct");
-}
-defEl.innerHTML=`
-<h3>${q.definition.title}</h3>
-<img src="${q.definition.img}">
-<p><strong>Definition:</strong> ${q.definition.text}</p>
-<p><strong>Explanation:</strong> ${q.justification}</p>
-`;
-defEl.style.opacity=1;
-nextBtn.style.display="block";
+  if(answered) return;
+  answered=true;
+  const q=currentCategory.questions[usedQuestions[currentQuestion]];
+  document.querySelectorAll(".answer-btn").forEach(b=>b.disabled=true);
+  if(i===q.correct){
+    btn.classList.add("correct");
+    score++;
+  }else{
+    btn.classList.add("wrong");
+    document.querySelectorAll(".answer-btn")[q.correct].classList.add("correct");
+  }
+  globalScore.textContent="Score: "+score;
+  defEl.innerHTML=`
+    <h3>${q.definition.title}</h3>
+    <img src="${q.definition.img}">
+    <p><strong>Definition:</strong> ${q.definition.text}</p>
+    <p><strong>Explanation:</strong> ${q.justification}</p>
+  `;
+  defEl.style.opacity=1;
+  nextBtn.style.display="block";
 }
 
 function nextQuestion(){
-currentQuestion++;
-if(currentQuestion>=currentCategory.questions.length){
-qEl.textContent="Quiz finished!";
-answersEl.innerHTML="";
-defEl.innerHTML="";
-nextBtn.style.display="none";
-bar.style.width="100%";
-finalScore.innerHTML=`Final score: ${score} / ${currentCategory.questions.length}`;
-categoriesEl.style.display="flex";
-return;
-}
-loadQuestion();
+  currentQuestion++;
+  if(currentQuestion>=usedQuestions.length){
+    // Fin catégorie
+    if(!completedCategories.includes(currentCategoryIndex)){
+      catProgress += 25;
+      catBar.style.width = catProgress+"%";
+      completedCategories.push(currentCategoryIndex);
+      globalScore.classList.add("animate");
+      setTimeout(()=>globalScore.classList.remove("animate"),600);
+    }
+    qEl.textContent="Category finished!";
+    answersEl.innerHTML="";
+    defEl.innerHTML="";
+    nextBtn.style.display="none";
+    categoriesEl.style.display="flex";
+    return;
+  }
+  loadQuestion();
 }
 </script>
 </body>
